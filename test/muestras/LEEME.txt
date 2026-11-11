@@ -1,0 +1,5 @@
+Muestras reales usadas por las pruebas:
+- nist-md5.txt: los MD5 de las evidencias tal como los publica el NIST
+  (https://cfreds-archive.nist.gov/dfrws/Rhino_Hunt.html), en formato md5sum.
+- unzip-v.txt: salida de `unzip -v contraband.zip` copiada del PDF oficial de respuestas
+  (https://cfreds-archive.nist.gov/dfrws/DFRWS2005-answers.pdf, «Solution (17)»); se ajustaron solo los espacios.

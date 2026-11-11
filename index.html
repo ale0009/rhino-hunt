@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>¿Resuelves The Rhino Hunt?</title>
+  <meta name="description" content="Juego forense de un solo caso: eres analista junior en «The Rhino Hunt», el caso público del NIST. Cadena de custodia, hash, trazas de red, archivos borrados, línea de tiempo y conclusión, con informe forense al final.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bangers&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="css/estilo.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F9F9F7'/%3E%3Ccircle cx='13' cy='13' r='8' fill='none' stroke='%230A090A' stroke-width='3'/%3E%3Cpath d='M19 19l9 9' stroke='%23CB433E' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="saltar" href="#mesa">Saltar al paso actual</a>
+  <header class="cabecera">
+    <span class="kanji" aria-hidden="true">犀</span>
+    <div class="titulo">
+      <p class="antetitulo">Expediente DFRWS-2005 · NIST CFReDS · juego forense</p>
+      <h1>¿Resuelves The Rhino Hunt?</h1>
+    </div>
+    <nav class="nav" aria-label="Opciones">
+      <a class="boton-linea" href="proceso/">Cómo se hizo</a>
+      <button type="button" class="boton-linea" id="sonido" aria-pressed="false">Sonido: no</button>
+      <button type="button" class="boton-linea" id="tema" aria-label="Cambiar tema">Tema: auto</button>
+    </nav>
+  </header>
+
+  <section class="hud vineta" aria-label="Progreso de la partida">
+    <ol class="pasos" id="pasos" aria-label="Pasos del caso"></ol>
+    <div class="marcadores">
+      <p class="marcador"><span class="etiqueta">Puntos</span> <b id="puntos">0</b><small> / 600</small></p>
+      <p class="marcador"><span class="etiqueta">Pistas</span> <b id="pistas">0</b></p>
+    </div>
+    <div class="coleccion" aria-live="polite">
+      <p class="etiqueta">Rinocerontes únicos <b id="rinos-n">0</b> / 10 · la ley castiga desde 9</p>
+      <ol class="ranuras" id="ranuras" aria-label="Colección de imágenes recuperadas"></ol>
+    </div>
+  </section>
+
+  <main class="juego">
+    <section class="mesa vineta" id="mesa" tabindex="-1" aria-live="polite" aria-labelledby="paso-titulo">
+      <noscript><p>Este juego necesita JavaScript.</p></noscript>
+    </section>
+
+    <aside class="ficha vineta" aria-labelledby="ficha-t">
+      <details id="ficha-det" open>
+        <summary><h2 id="ficha-t" class="ficha-titulo">Ficha del caso</h2></summary>
+        <ul class="escenario" id="escenario"></ul>
+        <h3 class="etiqueta">Evidencias (MD5 oficial del NIST)</h3>
+        <ul class="evidencias" id="evidencias"></ul>
+        <p class="ayuda">Caso público del NIST con fines educativos. Aquí no hay imágenes de disco: las evidencias están recreadas como datos ligeros. Lo marcado <span class="tag-practica">práctica</span> es inventado para entrenar y no está en el caso original.</p>
+      </details>
+    </aside>
+  </main>
+
+  <footer class="pie">
+    <p>Basado en «The Rhino Hunt» (DFRWS 2005 Rodeo Challenge, imagen de Golden G. Richard III), publicado por el NIST en <a href="https://cfreds-archive.nist.gov/dfrws/Rhino_Hunt.html" target="_blank" rel="noopener">CFReDS</a>. Las respuestas siguen el PDF oficial de soluciones. Es un ejercicio de formación: no sustituye un peritaje.</p>
+    <p class="creditos"><a href="https://github.com/ale0009" target="_blank" rel="noopener">Mario Puerta «ale0009»</a> × <a href="https://www.linkedin.com/in/davidalexanderrinconcorredorkuronoma/" target="_blank" rel="noopener">David Rincón «Kuronoma»</a> <a href="#">Portafolio</a></p>
+  </footer>
+</body>
+</html>

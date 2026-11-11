@@ -1,0 +1,11 @@
+{
+  "name": "rhino-hunt",
+  "version": "1.0.0",
+  "description": "¿Resuelves The Rhino Hunt? Juego forense de un solo caso, basado en el caso público del NIST CFReDS. Página estática sin build.",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "author": "Mario Alejandro Puerta Alarcón",
+  "scripts": { "test": "node --test" },
+  "engines": { "node": ">=20" }
+}

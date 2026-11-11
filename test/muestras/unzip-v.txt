@@ -1,0 +1,6 @@
+Archive:  contraband.zip
+ Length   Method    Size  Ratio   Date   Time   CRC-32    Name
+--------  ------  ------- -----   ----   ----   ------    ----
+  230665  Defl:N   230436   0%  04-26-04 17:00  936ebe65  rhino2.jpg
+--------          -------  ---                            -------
+  230665           230436   0%                            1 file

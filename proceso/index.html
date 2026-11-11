@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cómo se hizo · ¿Resuelves The Rhino Hunt?</title>
+  <meta name="description" content="De dónde sale el juego forense: qué es la informática forense, el caso público The Rhino Hunt del NIST, cómo se diseñaron los seis pasos, qué herramientas reales reemplaza y el marco legal colombiano de la cadena de custodia.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bangers&family=IBM+Plex+Mono:wght@400;600&display=swap">
+  <link rel="stylesheet" href="../css/estilo.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23F9F9F7'/%3E%3Ccircle cx='13' cy='13' r='8' fill='none' stroke='%230A090A' stroke-width='3'/%3E%3Cpath d='M19 19l9 9' stroke='%23CB433E' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+  <script type="module" src="../js/proceso.js"></script>
+</head>
+<body class="pagina-proceso">
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+  <header class="cabecera">
+    <span class="kanji" aria-hidden="true">鑑識</span>
+    <div class="titulo">
+      <p class="antetitulo">Proceso · ¿Resuelves The Rhino Hunt?</p>
+      <h1>Cómo se hizo</h1>
+    </div>
+    <nav class="nav">
+      <a class="boton-linea" href="../">Volver al juego</a>
+      <button type="button" class="boton-linea" id="tema" aria-label="Cambiar tema">Tema: auto</button>
+    </nav>
+  </header>
+
+  <main class="articulo" id="contenido">
+    <nav class="indice vineta" aria-label="En esta página">
+      <ol>
+        <li><a href="#forense">Qué es la informática forense</a></li>
+        <li><a href="#caso">El caso</a></li>
+        <li><a href="#clase">El trabajo de clase</a></li>
+        <li><a href="#diseno">Cómo se diseñó el juego</a></li>
+        <li><a href="#herramientas">Herramientas reales</a></li>
+        <li><a href="#legal">Marco legal en Colombia</a></li>
+        <li><a href="#cifras">Cifras</a></li>
+        <li><a href="#limites">Limitaciones y erratas</a></li>
+        <li><a href="#fuentes">Fuentes</a></li>
+      </ol>
+    </nav>
+
+    <section id="forense" class="bloque">
+      <h2>1 · Qué es la informática forense</h2>
+      <p>La informática forense recoge, conserva y analiza datos digitales para que sirvan como prueba. Lo difícil no es encontrar el archivo: es <strong>demostrar después que nadie lo cambió</strong> desde que se recogió.</p>
+      <p>Por eso todo trabajo forense sigue el mismo orden, que es el orden del juego:</p>
+      <ol class="decisiones">
+        <li><strong>Preservar.</strong> Registrar la evidencia en la cadena de custodia (el acta que dice quién la tuvo, cuándo y en qué estado).</li>
+        <li><strong>Adquirir.</strong> Sacar una copia bit a bit (imagen dd) sin escribir en el original y calcular su <strong>hash</strong>, una huella que cambia si cambia un solo bit.</li>
+        <li><strong>Analizar.</strong> Leer trazas de red, recuperar archivos borrados por su firma, abrir lo cifrado y ordenar los hechos en el tiempo.</li>
+        <li><strong>Presentar.</strong> Un informe que responde quién, qué y cuándo, y que otro perito puede repetir.</li>
+      </ol>
+    </section>
+
+    <section id="caso" class="bloque">
+      <h2>2 · El caso: The Rhino Hunt</h2>
+      <p>Es un caso de práctica creado para el <strong>DFRWS 2005 Rodeo Challenge</strong> (imagen aportada por Golden G. Richard III) y publicado por el <strong>NIST</strong> en su colección pública <strong>CFReDS</strong> (conjuntos de datos de referencia para forense digital). Su catálogo en data.gov lo marca de acceso público bajo la licencia abierta del NIST. Es material de formación: el crimen es inventado (en Nueva Orleans no existe una ley contra fotos de rinocerontes).</p>
+      <div class="dos-col">
+        <div class="vineta figura">
+          <h3>Lo que entrega el NIST</h3>
+          <ul>
+            <li><code>RHINOUSB.dd</code>: imagen de una memoria USB reformateada.</li>
+            <li><code>rhino.log</code>: traza de red con Telnet y FTP.</li>
+            <li><code>rhino2.log</code> y <code>rhino3.log</code>: trazas con HTTP.</li>
+            <li>El MD5 publicado de cada archivo y siete preguntas: quién dio la cuenta, usuario y contraseña, transferencias, qué pasó con el disco y con la USB, qué se recupera y qué une la USB con la red.</li>
+          </ul>
+          <p class="nota-fuente">El juego <strong>no redistribuye</strong> esos archivos: usa sus nombres, sus firmas de archivo y los hashes publicados.</p>
+        </div>
+        <figure class="vineta figura">
+          <h3>De dónde salen los 10 rinocerontes (calculado aquí)</h3>
+          <svg class="grafica" id="g-origenes" role="img" aria-label="Barra de 10 imágenes: 3 por FTP, 2 por HTTP, 3 talladas de la USB y 2 escondidas con esteganografía. El umbral legal está en 9."></svg>
+          <figcaption>Agrupación hecha aquí con la lista del PDF oficial de respuestas. rhino2.jpg aparece en la red y en la USB, pero cuenta una vez (por eso es la prueba que une las dos fuentes).</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="clase" class="bloque">
+      <h2>3 · El trabajo de clase</h2>
+      <p>En la clase de informática forense (2025), Mario y David resolvieron el caso con su equipo en Kali Linux: verificaron los MD5 con <code>md5sum</code>, montaron la imagen en Autopsy, tallaron el espacio libre con PhotoRec, leyeron el diario recuperado con <code>strings</code>, filtraron las trazas en Wireshark (<code>ftp.request.command == "STOR"</code>) y abrieron <code>contraband.zip</code>. Llegaron a las respuestas clave: Jeremy dio la cuenta «gnome», el disco terminó en el río Misisipi y la USB se reformateó.</p>
+      <p>Un segundo trabajo del mismo curso aplicó el <strong>modelo SKRAM</strong> (Donn Parker, 1998: habilidades, conocimiento, recursos, autoridad y motivo) para perfilar a los autores de dos casos reales: un fraude con video falso generado por IA contra una firma de ingeniería británica y una fuga masiva de datos en un proveedor de almacenamiento en la nube. El juego reutiliza ese modelo en el paso 6 para perfilar al sospechoso del caso.</p>
+    </section>
+
+    <section id="diseno" class="bloque">
+      <h2>4 · Cómo se diseñó el juego</h2>
+      <p>Cada pregunta oficial del NIST se convirtió en una mecánica sencilla. Toda la lógica del caso vive en <code>js/caso.js</code> como datos y las reglas en <code>js/motor.js</code> como funciones puras; la interfaz solo las pinta. Así el caso se puede llevar a la biblioteca de minijuegos de Jisseki sin reescribirlo.</p>
+      <div class="tabla-scroll vineta">
+        <table class="tabla tabla-pasos">
+          <caption>Los seis pasos, generados desde <code>js/caso.js</code>.</caption>
+          <thead><tr><th scope="col">Paso</th><th scope="col">Qué haces</th><th scope="col">Mecánica</th><th scope="col">Herramienta real</th></tr></thead>
+          <tbody id="t-pasos"></tbody>
+        </table>
+      </div>
+      <h3>Decisiones</h3>
+      <ul class="decisiones">
+        <li><strong>La línea de tiempo puntúa relaciones, no posiciones.</strong> El NIST solo publica una fecha firme (la interna del zip: 26-04-2004 17:00). En lugar de inventar horas, el juego cuenta 10 relaciones «A va antes que B» que la evidencia sí sostiene (por ejemplo, el diario dice que reformateará la USB <em>después</em> de esa entrada). Donde el caso no dice nada, cualquier orden vale.</li>
+        <li><strong>No hay historial del navegador</strong> porque no hay disco. El paso 3 usa lo más parecido: las peticiones HTTP como historial y la sesión Telnet/FTP y el diario como conversaciones. Las líneas están resumidas, no copiadas de los paquetes.</li>
+        <li><strong>Dos piezas inventadas para practicar</strong>, marcadas «práctica»: una copia de trabajo con un byte cambiado (para ver que un hash «casi igual» es distinto) y un archivo <code>.txt</code> que en realidad es un JPEG (extensión falsa). En el caso real, el nombre que engaña es <code>rhino.exe</code>: suena a foto y es Microsoft DiskPart.</li>
+        <li><strong>Puntos:</strong> 100 por paso; cada fallo resta 20 y cada pista 15. Probar contraseñas no resta, porque un crackeador de diccionario prueba muchas. Se puede «entregar así» un paso a medias y perder la parte que falta.</li>
+        <li><strong>Sonido apagado por defecto</strong>, generado en el navegador (Web Audio), sin archivos. Teclado completo: las flechas reemplazan el arrastre.</li>
+      </ul>
+      <div class="dos-col">
+        <figure class="vineta figura">
+          <h3>Las 10 relaciones que puntúan</h3>
+          <svg class="grafica" id="g-restricciones" role="img" aria-label="Diez hechos en un orden válido, unidos por arcos que marcan qué debe ir antes de qué."></svg>
+          <figcaption>Un orden válido calculado aquí (orden topológico) con los arcos de cada relación. Varios órdenes distintos también son válidos.</figcaption>
+        </figure>
+        <figure class="vineta figura">
+          <h3>Bocetos y paleta</h3>
+          <svg class="grafica" viewBox="0 0 300 130" role="img" aria-label="Boceto: barra de seis pasos arriba, mesa de trabajo a la izquierda y carpeta de expediente a la derecha.">
+            <rect class="g-caja" x="4" y="4" width="292" height="26"/>
+            <rect class="g-caja" x="10" y="10" width="34" height="14"/><rect class="g-caja" x="48" y="10" width="34" height="14"/><rect class="g-caja" x="86" y="10" width="34" height="14"/>
+            <rect class="g-barra g-dest" x="200" y="12" width="9" height="10"/><rect class="g-barra g-dest" x="211" y="12" width="9" height="10"/><rect class="g-caja" x="222" y="12" width="9" height="10"/>
+            <rect class="g-caja" x="4" y="38" width="196" height="88"/>
+            <line class="g-base" x1="14" y1="52" x2="110" y2="52"/><rect class="g-barra" x="14" y="62" width="176" height="14"/><rect class="g-caja" x="14" y="82" width="176" height="14"/>
+            <rect class="g-caja" x="208" y="38" width="88" height="88"/><text class="g-eje" x="214" y="54">expediente</text>
+          </svg>
+          <div class="paleta" aria-label="Paleta de colores">
+            <span style="--c:#F9F9F7">Papel #F9F9F7</span><span style="--c:#CB433E">Rojo #CB433E</span><span style="--c:#438FB8">Cian #438FB8</span>
+            <span class="osc" style="--c:#141C33">Noche #141C33</span><span style="--c:#F2ECE0">Washi #F2ECE0</span><span class="osc" style="--c:#BA3937">Bermellón #BA3937</span>
+          </div>
+          <figcaption>La HUD (barra de pasos, puntos y colección de rinocerontes) viene de los videojuegos; la carpeta y los sellos, del expediente.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section id="herramientas" class="bloque">
+      <h2>5 · Las herramientas reales que reemplaza</h2>
+      <ul class="herramientas">
+        <li><strong>md5sum / sha256sum</strong><small>Calculan el hash de un archivo. El paso 2 compara su salida con el acta. MD5 ya no resiste colisiones provocadas; hoy se anota también SHA-256.</small></li>
+        <li><strong>FTK Imager / dd</strong><small>Sacan la imagen bit a bit, con bloqueador de escritura. El NIST entrega ya la imagen <code>RHINOUSB.dd</code>.</small></li>
+        <li><strong>Autopsy</strong><small>Abre la imagen, muestra lo borrado y arma líneas de tiempo. Es la base de los pasos 4 y 5.</small></li>
+        <li><strong>FTK (Forensic Toolkit)</strong><small>Suite comercial que hace lo mismo que Autopsy a escala de laboratorio; el PDF oficial la cita para tallar archivos.</small></li>
+        <li><strong>PhotoRec / Foremost / Scalpel</strong><small>Tallado: buscan firmas como <code>FF D8 FF</code> (JPEG) en el espacio libre. Es lo que el jugador hace a mano en el paso 4.</small></li>
+        <li><strong>Wireshark (antes Ethereal)</strong><small>Lee las trazas de red y reconstruye lo que viajó por FTP y HTTP. Paso 3.</small></li>
+        <li><strong>stegdetect / jpseek</strong><small>Detectan y extraen datos escondidos en un JPEG (jphide). Así salen rhino6 y rhino7 de las fotos de caimanes.</small></li>
+      </ul>
+    </section>
+
+    <section id="legal" class="bloque">
+      <h2>6 · Marco legal en Colombia</h2>
+      <dl class="glosario">
+        <dt>Ley 906 de 2004, art. 254</dt>
+        <dd>Código de Procedimiento Penal. La cadena de custodia demuestra la autenticidad de la evidencia y registra su identidad, estado original, condiciones de recolección, preservación, embalaje y envío, lugares y fechas de permanencia, los cambios de cada custodio y el nombre e identificación de todas las personas que la tocaron. Es lo que pide el paso 1.</dd>
+        <dt>Manual de cadena de custodia</dt>
+        <dd>La misma ley encarga a la Fiscalía General reglamentar el sistema (Resolución 6394 de 2004 y sus actualizaciones).</dd>
+        <dt>Ley 527 de 1999, art. 11</dt>
+        <dd>Da valor probatorio a los mensajes de datos. Para valorarlos pide mirar la confiabilidad de cómo se generaron, archivaron o comunicaron, cómo se conservó la integridad de la información y cómo se identifica a su autor. Un hash que coincide es la forma práctica de mostrar esa integridad (paso 2).</dd>
+        <dt>Ley 1273 de 2009</dt>
+        <dd>Crea el bien jurídico de la protección de la información y de los datos (arts. 269A a 269J del Código Penal), como el acceso abusivo a un sistema informático (269A) o el daño informático (269D). Si un caso así pasara en Colombia, las fotos no serían delito, pero usar una cuenta ajena o borrar datos sí podrían discutirse a la luz de esta ley.</dd>
+      </dl>
+      <p class="nota-fuente">Resumen informativo, no asesoría legal. Consulta el texto vigente en SUIN-Juriscol o en la Secretaría del Senado.</p>
+    </section>
+
+    <section id="cifras" class="bloque">
+      <h2>7 · Cifras</h2>
+      <ul>
+        <li><strong>4</strong> evidencias con MD5 publicado y <strong>10</strong> imágenes únicas de rinoceronte recuperables (fuente: NIST y PDF oficial de respuestas).</li>
+        <li>Umbral de la ley del escenario: <strong>9</strong> imágenes únicas (fuente: escenario del NIST).</li>
+        <li>Reparto 3 FTP · 2 HTTP · 3 tallado · 2 esteganografía <em>(calculado aquí)</em>; rhino2 está en dos fuentes y cuenta una vez.</li>
+        <li>Puntuación máxima <strong id="c-max">600</strong>, 10 relaciones en la línea de tiempo y 12 archivos para clasificar, 1 de ellos inventado <em>(diseño del juego)</em>.</li>
+        <li>Fecha más firme del caso: <strong>26-04-2004 17:00</strong>, la interna de <code>rhino2.jpg</code> dentro del zip (salida de <code>unzip -v</code> en el PDF oficial).</li>
+      </ul>
+    </section>
+
+    <section id="limites" class="bloque">
+      <h2>8 · Limitaciones y fe de erratas</h2>
+      <ul>
+        <li>Es un juego de formación: no reemplaza a Autopsy ni a un peritaje. El jugador no analiza bytes reales; los primeros bytes que ve son las firmas estándar de cada tipo.</li>
+        <li>Las horas de las sesiones FTP y HTTP no se verificaron aquí con las trazas originales (no se descargaron); por eso el juego no las pide.</li>
+        <li>El motivo en el perfil SKRAM es una inferencia a partir del diario, y así se marca.</li>
+      </ul>
+      <div class="vineta errata">
+        <h3>Fe de erratas</h3>
+        <p><strong>Del trabajo de clase:</strong></p>
+        <ul>
+          <li>Dice «4 imágenes de rinoceronte» recuperables por tallado y enumera 5 (rhino6 a rhino10). Además rhino6 y rhino7 no salen por tallado directo, sino de dentro de dos fotos de caimanes (esteganografía).</li>
+          <li>La conclusión habla de «nueve imágenes únicas»; el PDF oficial resume <strong>10</strong>.</li>
+          <li>Sugiere buscar un <code>rhino_manifest.txt</code> en la USB y en HTTP; no aparece en la solución oficial.</li>
+        </ul>
+        <p><strong>De la propia solución oficial:</strong></p>
+        <ul>
+          <li>El resumen de respuestas dice que <code>alligator2.jpg</code> (de donde sale rhino6) se abre con «gator» y <code>alligator3.jpg</code> (rhino7) con «gumbo»; en la salida de <code>jpseek</code> del mismo PDF, rhino6 se extrae con «gumbo» y rhino7 con «gator». El juego acepta cualquiera de las dos.</li>
+          <li><code>rhino10</code> figura como <code>.bmp</code> en un resumen y como <code>.jpg</code> en la solución con su MD5; el juego usa <code>.jpg</code>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="fuentes" class="bloque">
+      <h2>9 · Fuentes</h2>
+      <ul class="lista-fuentes">
+        <li>NIST CFReDS, «Rhino Hunt»: escenario, evidencias y MD5. <a href="https://cfreds-archive.nist.gov/dfrws/Rhino_Hunt.html">cfreds-archive.nist.gov/dfrws/Rhino_Hunt.html</a> · portal actual: <a href="https://cfreds.nist.gov/all/NIST/RhinoHunt">cfreds.nist.gov</a>.</li>
+        <li>DFRWS 2005 Rodeo Challenge, respuestas oficiales (PDF). <a href="https://cfreds-archive.nist.gov/dfrws/DFRWS2005-answers.pdf">cfreds-archive.nist.gov/dfrws/DFRWS2005-answers.pdf</a>.</li>
+        <li>Catálogo del portal CFReDS en data.gov (acceso público, licencia abierta del NIST). <a href="https://catalog.data.gov/dataset/computer-forensic-reference-data-set-portal">catalog.data.gov</a> · <a href="https://www.nist.gov/open/license">nist.gov/open/license</a>.</li>
+        <li>Ley 906 de 2004, art. 254, en el Gestor Normativo de Función Pública. <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=14787">funcionpublica.gov.co</a>.</li>
+        <li>Ley 527 de 1999, art. 11, en el <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=4276">Gestor Normativo de Función Pública</a>; Ley 1273 de 2009, en <a href="https://www.suin-juriscol.gov.co/">SUIN-Juriscol</a>.</li>
+        <li>Trabajos de clase de informática forense de Mario Puerta y David Rincón (2025): solución del caso Rhino Hunt y perfilación con el modelo SKRAM.</li>
+      </ul>
+    </section>
+
+    <a class="volver" href="../">Resolver el caso →</a>
+  </main>
+
+  <footer class="pie">
+    <p>«The Rhino Hunt» es material público del NIST con fines educativos; aquí no se redistribuyen sus imágenes de disco ni sus trazas.</p>
+    <p class="creditos"><a href="https://github.com/ale0009" target="_blank" rel="noopener">Mario Puerta «ale0009»</a> × <a href="https://www.linkedin.com/in/davidalexanderrinconcorredorkuronoma/" target="_blank" rel="noopener">David Rincón «Kuronoma»</a> <a href="#">Portafolio</a></p>
+  </footer>
+</body>
+</html>
